@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Cày Thuê</title>
+    <link rel="stylesheet" href="style.css">
+<style type="text/css" id="dcoder_stylesheet">body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
+#popup, #mainPage {
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 400px;
+    background-color: white;
+}
+
+button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+input, select {
+    width: 90%;
+    margin: 10px 0;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+h1, h3 {
+    color: #333;
+}
+#waitingPage h3, #completionMessage h3 {
+    color: #4CAF50;
+    font-size: 24px;
+}
+#completeButton {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#completeButton:hover {
+    background-color: #45a049;
+}</style></head>
+<body>
+    <!-- Màn hình thông báo -->
+    <div id="popup">
+        <h1>Đây là web cày thuê của Vanh</h1>
+        <button id="confirmBtn">Xác nhận</button>
+    </div>
+
+    <!-- Trang chủ -->
+    <div id="mainPage" style="display: none;">
+        <h1>Trang chủ</h1>
+        <button id="addAccountBtn">Thêm tài khoản</button>
+
+        <!-- Form thêm tài khoản -->
+        <div id="accountForm" style="display: none; margin-top: 20px;">
+            <label for="username">Tên tài khoản:</label>
+            <input type="text" id="username" placeholder="Nhập tên tài khoản"><br>
+            
+            <label for="password">Mật khẩu:</label>
+            <input type="password" id="password" placeholder="Nhập mật khẩu"><br>
+            
+            <button id="submitAccount">Thêm</button>
+        </div>
+
+        <!-- Hiển thị thông tin tài khoản -->
+<div id="accountInfo" style="display: none; margin-top: 20px;">
+    <h3>Tài khoản của bạn: <span id="displayUsername"></span></h3>
+    <p>Chọn tối đa 3 dịch vụ:</p>
+    <div id="serviceList">
+        <label>
+            <input type="checkbox" name="service" value="farm tiền"> Farm tiền
+        </label><br>
+        <label>
+            <input type="checkbox" name="service" value="farm max level"> Farm max level
+        </label><br>
+        <label>
+            <input type="checkbox" name="service" value="cày fragment"> Cày fragment
+        </label><br>
+        <label>
+            <input type="checkbox" name="service" value="cày boss"> Cày boss
+        </label><br>
+        <label>
+            <input type="checkbox" name="service" value="cày nhiệm vụ"> Cày nhiệm vụ
+        </label><br>
+        <label>
+            <input type="checkbox" name="service" value="farm 5000 bone"> Farm 5000 bone
+        </label>
+    </div>
+    <button id="submitService">OK</button>
+</div>
+
+<!-- Thông báo hoàn thành -->
+<div id="completionMessage" style="display: none; text-align: center; margin-top: 20px;">
+    <h3>Hoàn thành! Thông tin của bạn đã được gửi.</h3>
+</div></div><script type="text/javascript" id="dcoder_script">// Hiển thị popup và xử lý xác nhận
+document.getElementById("confirmBtn").addEventListener("click", function() {
+    document.getElementById("popup").style.display = "none";
+    document.getElementById("mainPage").style.display = "block";
+});
+
+// Hiển thị form thêm tài khoản
+document.getElementById("addAccountBtn").addEventListener("click", function() {
+    document.getElementById("accountForm").style.display = "block";
+});
+
+// Xử lý khi thêm tài khoản
+document.getElementById("submitAccount").addEventListener("click", function() {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    if (username && password) {
+        document.getElementById("displayUsername").textContent = username;
+        document.getElementById("accountForm").style.display = "none";
+        document.getElementById("accountInfo").style.display = "block";
+    } else {
+        alert("Vui lòng nhập đầy đủ thông tin!");
+    }
+});
+
+// Giới hạn tối đa 3 dịch vụ
+document.querySelectorAll('input[name="service"]').forEach((checkbox) => {
+    checkbox.addEventListener("change", function () {
+        const selectedServices = document.querySelectorAll('input[name="service"]:checked');
+        if (selectedServices.length > 3) {
+            alert("Bạn chỉ được chọn tối đa 3 dịch vụ!");
+            this.checked = false; // Bỏ chọn dịch vụ vừa chọn
+        }
+    });
+});
+
+// Xử lý gửi thông tin và hiển thị thông báo hoàn thành
+document.getElementById("submitService").addEventListener("click", function () {
+    const username = document.getElementById("displayUsername").textContent;
+    const selectedServices = Array.from(document.querySelectorAll('input[name="service"]:checked')).map(service => service.value);
+
+    if (selectedServices.length === 0) {
+        alert("Vui lòng chọn ít nhất 1 dịch vụ!");
+        return;
+    }
+
+    // Ẩn phần chọn dịch vụ và hiển thị thông báo hoàn thành
+    document.getElementById("accountInfo").style.display = "none";
+    document.getElementById("completionMessage").style.display = "block";
+
+    // Dữ liệu gửi
+    const data = {
+        email: "vivetanh@gmail.com",
+        subject: "Dịch vụ cày thuê",
+        body: `Tài khoản: ${username} đã chọn các dịch vụ: ${selectedServices.join(", ")}.`
+    };
+
+    // Gửi email bằng API
+    fetch("https://api.emailservice.com/send", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            alert("Có lỗi xảy ra khi gửi thông tin. Vui lòng thử lại.");
+            document.getElementById("accountInfo").style.display = "block";
+            document.getElementById("completionMessage").style.display = "none";
+        }
+    });
+});</script></body></html>
