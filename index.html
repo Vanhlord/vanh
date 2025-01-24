@@ -120,8 +120,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.6.4/dist/email.min.js"></script>
     <script>
-        // Khởi tạo EmailJS với User ID của bạn
-        emailjs.init("Vanh");
+        // Khởi tạo EmailJS với Public Key của bạn
+        emailjs.init("XODn0eml2LbY-saQL");  // Public Key của bạn
 
         // Hàm đăng nhập Google (Chỉ là mẫu, bạn có thể tích hợp thật nếu cần)
         function googleLogin() {
@@ -154,11 +154,7 @@
             // Cấu hình các tham số email
             var templateParams = {
                 account_name: accountName,
-                services: services.join(', ')
-            };
-
-            // Gửi email qua EmailJS
-            emailjs.send('Vanh', 'template_oge353u', templateParams)
+                serVanh', 'template_oge353u', templateParams)
                 .then(function(response) {
                     alert('Email đã được gửi thành công!');
                     window.location.href = 'chờ.html';  // Chuyển sang trang chờ
