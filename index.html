@@ -53,19 +53,6 @@
         .form-group button:hover {
             background-color: #45a049;
         }
-        .service-selection {
-            margin-top: 20px;
-        }
-        .service-selection ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .service-selection li {
-            background-color: #e7f7e7;
-            padding: 8px;
-            margin-bottom: 5px;
-            border-radius: 4px;
-        }
         .footer {
             text-align: center;
             margin-top: 30px;
@@ -81,35 +68,22 @@
             <h1>Cày Thuê Tài Khoản - Vanh</h1>
         </div>
 
-        <!-- Đăng nhập với Google -->
+        <!-- Phần đăng nhập -->
         <div id="login-section">
-            <button onclick="googleLogin()">Đăng Nhập Với Google</button>
+            <h2>Đăng Nhập</h2>
+            <div class="form-group">
+                <label for="username">Tên Tài Khoản:</label>
+                <input type="text" id="username" placeholder="Nhập tên tài khoản">
+            </div>
+            <div class="form-group">
+                <button onclick="login()">Đăng Nhập</button>
+            </div>
         </div>
 
-        <!-- Bảng thông báo -->
+        <!-- Phần giao diện sau khi đăng nhập -->
         <div id="welcome-section" style="display:none;">
-            <p>Đây là website cày thuê của Vanh. Vui lòng xác nhận để tiếp tục.</p>
-            <button onclick="showForm()">Xác Nhận</button>
-        </div>
-
-        <!-- Form nhập thông tin tài khoản -->
-        <div id="form-section" style="display:none;">
-            <div class="form-group">
-                <label for="account-name">Tên Tài Khoản:</label>
-                <input type="text" id="account-name" placeholder="Nhập tên tài khoản">
-            </div>
-            <div class="service-selection">
-                <h3>Chọn Dịch Vụ:</h3>
-                <ul>
-                    <li><input type="checkbox" id="service1"> Farm Tiền</li>
-                    <li><input type="checkbox" id="service2"> Farm Max Level</li>
-                    <li><input type="checkbox" id="service3"> Cày Fragment</li>
-                    <li><input type="checkbox" id="service4"> Farm 5000 Bone</li>
-                </ul>
-            </div>
-            <div class="form-group">
-                <button onclick="submitForm()">OK</button>
-            </div>
+            <p>Chào mừng bạn, <span id="display-name"></span>!</p>
+            <button onclick="logout()">Đăng Xuất</button>
         </div>
 
         <!-- Phần chân trang -->
@@ -118,49 +92,44 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.6.4/dist/email.min.js"></script>
     <script>
-        // Khởi tạo EmailJS với Public Key của bạn
-        emailjs.init("XODn0eml2LbY-saQL");  // Public Key của bạn
-
-        // Hàm đăng nhập Google (Chỉ là mẫu, bạn có thể tích hợp thật nếu cần)
-        function googleLogin() {
-            alert('Đăng nhập với Google thành công!');
-            document.getElementById('login-section').style.display = 'none';
-            document.getElementById('welcome-section').style.display = 'block';
-        }
-
-        // Hiển thị form nhập thông tin tài khoản
-        function showForm() {
-            document.getElementById('welcome-section').style.display = 'none';
-            document.getElementById('form-section').style.display = 'block';
-        }
-
-        // Hàm gửi email khi nhấn OK
-        function submitForm() {
-            // Lấy dữ liệu từ form
-            var accountName = document.getElementById('account-name').value;
-            var services = [];
-            if (document.getElementById('service1').checked) services.push('Farm Tiền');
-            if (document.getElementById('service2').checked) services.push('Farm Max Level');
-            if (document.getElementById('service3').checked) services.push('Cày Fragment');
-            if (document.getElementById('service4').checked) services.push('Farm 5000 Bone');
-
-            if (accountName === '' || services.length === 0) {
-                alert('Vui lòng nhập tên tài khoản và chọn dịch vụ!');
-                return;
+        // Kiểm tra xem người dùng đã đăng nhập chưa
+        window.onload = function() {
+            var username = localStorage.getItem("username");
+            if (username) {
+                // Nếu đã đăng nhập, hiển thị trang chào mừng
+                document.getElementById("login-section").style.display = "none";
+                document.getElementById("welcome-section").style.display = "block";
+                document.getElementById("display-name").innerText = username;
+            } else {
+                // Nếu chưa đăng nhập, hiển thị form đăng nhập
+                document.getElementById("login-section").style.display = "block";
+                document.getElementById("welcome-section").style.display = "none";
             }
+        }
 
-            // Cấu hình các tham số email
-            var templateParams = {
-                account_name: accountName,
-                serVanh', 'template_oge353u', templateParams)
-                .then(function(response) {
-                    alert('Email đã được gửi thành công!');
-                    window.location.href = 'chờ.html';  // Chuyển sang trang chờ
-                }, function(error) {
-                    alert('Lỗi khi gửi email: ' + error.text);
-                });
+        // Hàm đăng nhập
+        function login() {
+            var username = document.getElementById("username").value;
+            if (username) {
+                // Lưu tên tài khoản vào localStorage
+                localStorage.setItem("username", username);
+                // Chuyển đến trang chào mừng
+                document.getElementById("login-section").style.display = "none";
+                document.getElementById("welcome-section").style.display = "block";
+                document.getElementById("display-name").innerText = username;
+            } else {
+                alert("Vui lòng nhập tên tài khoản!");
+            }
+        }
+
+        // Hàm đăng xuất
+        function logout() {
+            // Xóa thông tin đăng nhập khỏi localStorage
+            localStorage.removeItem("username");
+            // Chuyển lại về màn hình đăng nhập
+            document.getElementById("login-section").style.display = "block";
+            document.getElementById("welcome-section").style.display = "none";
         }
     </script>
 
