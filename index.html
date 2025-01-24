@@ -1,15 +1,45 @@
-<!doctype html>
-<html lang="vi">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Cày Thuê</title>
-    <link rel="stylesheet" href="style.css">
-<style type="text/css" id="dcoder_stylesheet">body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f9f9f9;
-}
+    <title>Gửi Email</title>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+</head>
+<body>
+    <h1>Trang Cày Thuê Acc</h1>
+    <form id="email-form">
+        <input type="text" id="account-name" placeholder="Nhập tên tài khoản" required>
+        <input type="text" id="services" placeholder="Chọn dịch vụ" required>
+        <button type="submit">Gửi Email</button>
+    </form>
+
+    <script>
+        // Khởi tạo EmailJS
+        emailjs.init('Vanh'); // Thay YOUR_USER_ID bằng ID của bạn
+
+        document.getElementById('email-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            var accountName = document.getElementById('account-name').value;
+            var services = document.getElementById('services').value;
+
+            var templateParams = {
+                account_name: accountName,
+                services: services
+            };
+
+            emailjs.send('Vanh', 'template_oge353u', templateParams)
+                .then(function (response) {
+                    alert('Email đã được gửi!');
+                }, function (error) {
+                    alert('Lỗi khi gửi email: ' + error.text);
+                });
+        });
+    </script>
+</body>
+</html>
+
 
 #popup, #mainPage {
     margin: 50px auto;
